@@ -18,7 +18,7 @@ RESOURCE_DATA="access_token="
 TMP_FILE="/tmp/curl_out"
 
 if [ -z "$JQ" ]; then
-	JQ=$(whereis -b jq1 | cut -f 2 -d \ )
+	JQ=$(whereis -b jq | cut -f 2 -d \ )
 fi
 
 if [ ! -x "$JQ" ]; then
@@ -35,7 +35,6 @@ if [ "$STATUS" = "200" ]; then
 	LAST_TOKEN=$(tail -n 1 $ACCESS_TOKEN_FILE_STORE)
 	if [ -n "$LAST_TOKEN" ]; then
 		ACCESS_TOKEN=$(echo $LAST_TOKEN | jq ".access_token" | cut -f 2 -d \")
-
 		if [ -n "$ACCESS_TOKEN" ]; then
 			STATUS=$(curl --write-out "%{http_code}" --output "$TMP_FILE" --silent "$RESOURCE_SERVER/$RESOURCE_URL?$RESOURCE_DATA$ACCESS_TOKEN")
 			if [ "$STATUS" = "200" ]; then
@@ -46,14 +45,11 @@ if [ "$STATUS" = "200" ]; then
 		else
 			echo "Can not extract access_token from JSON data: $LAST_TOKEN"
 		fi
-
 	else
 		echo "Can not obtain last received access token!"
 	fi
 else
 	echo "Can not obtain token from $ACCESS_TOKEN_URL. Return HTTP Status: $STATUS"
 fi
-
-
-
 exit 0
+
