@@ -13,8 +13,6 @@
 
 	<context:component-scan base-package="sk.anext"/>
 
-	<mvc:interceptors>
-		<bean id="userInfoInterceptor" class="org.mitre.openid.connect.web.UserInfoInterceptor" />
-	</mvc:interceptors>
+
 
 </beans>
